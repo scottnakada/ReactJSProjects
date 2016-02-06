@@ -5,7 +5,7 @@ var Home = require('./components/Home/Home');
 var Header = require('./components/Header/Header');
 var Footer = require('./components/Footer/Footer');
 var About = require('./components/About/About');
-var Privacy = require('./components/Privacy/Privacy');
+var Privacy = require('./../../RouterNav/src/components/Privacy/Privacy');
 
 (function (win) {
     'use strict';

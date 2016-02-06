@@ -42,6 +42,7 @@ nbproject
 node_modules/
 tmp/
 *.map
+dist/
 
 # DVCS
 .hg
