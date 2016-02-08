@@ -3,26 +3,33 @@
 var React = require('react');
 var Router = require('react-router');
 var Link = Router.Link;
-var AuthorActions = require('../../actions/authorActions');
+var AuthorActions = require('../../actions/AuthorActions');
 var toastr = require('toastr');
 
-var AuthorList = React.createClass({
+/* Display a list of authors */
+var AuthorsList = React.createClass({
+    /* Expecting a required array of authors */
     propTypes: {
         authors: React.PropTypes.array.isRequired
     },
 
-    deleteAuthor: function(id, event) {
+    /* Delete an author */
+    deleteAuthor: function (id, event) {
+        /* Override the default action of Javascript */
         event.preventDefault();
+        /* Generate a delete Author action */
         AuthorActions.deleteAuthor(id);
         toastr.success('Author Deleted');
     },
 
+    /* Render the list of authors */
     render: function () {
+        /* Create an author data row */
         var createAuthorRow = function (author) {
             return (
                 <tr key={author.id}>
                     <td>
-                        <Link to="manageAuthor" params={{id: author.id}}>
+                        <Link to="updateAuthor" params={{id: author.id}}>
                             {author.id}
                         </Link>
                     </td>
@@ -30,13 +37,17 @@ var AuthorList = React.createClass({
                         {author.firstName} {author.lastName}
                     </td>
                     <td>
-                        <a href="#" onClick={this.deleteAuthor.bind(this, author.id)}>
+                        <button
+                            type="button"
+                            className="btn btn-danger"
+                            onClick={this.deleteAuthor.bind(this, author.id)}>
                             Delete
-                        </a>
+                        </button>
                     </td>
                 </tr>
             )
         };
+        /* Create a table for the author data */
         return (
             <div>
                 <table className="table">
@@ -54,4 +65,4 @@ var AuthorList = React.createClass({
     }
 });
 
-module.exports = AuthorList;
+module.exports = AuthorsList;

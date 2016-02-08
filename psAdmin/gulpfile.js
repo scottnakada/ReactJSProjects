@@ -29,12 +29,14 @@ var config = {
     devBaseUrl: 'http://localhost',
     paths: {
         html: ['./src/*.html', './src/**/*.html'],
-        js: ['./src/**/*.js', './src/*/*/*.js'],
+        js: './src/**/*.js',
         images: './src/images/*',
         css: [
             'node_modules/bootstrap/dist/css/bootstrap.min.css',
             'node_modules/bootstrap/dist/css/bootstrap-theme.min.css',
-            'node_modules/toastr/build/toastr.css'
+            'node_modules/toastr/build/toastr.css',
+            './src/*.css',
+            './src/**/*.css'
         ],
         dist: './dist',
         mainJs: './src/main.js'

@@ -1,9 +1,17 @@
 "use strict";
 
 var React = require('react');
-var Input = require('../common/textInput');
+var Input = require('../common/TextInput');
 
-var AuthorForm = React.createClass({
+/* Show the Author Add/Edit form */
+var AuthorAddEditForm = React.createClass({
+    /*
+     Inputs for this component
+     author - object containing the id, first and last name of an author, required
+     onSave - function to be executed when the Save button is pressed required
+     onChange - function to be executed when a field changes, required
+     errors - object containing error message for each field
+     */
     propTypes: {
         author: React.PropTypes.object.isRequired,
         onSave: React.PropTypes.func.isRequired,
@@ -11,10 +19,10 @@ var AuthorForm = React.createClass({
         errors: React.PropTypes.object
     },
 
+    /* Render the Form */
     render: function () {
         return (
             <form>
-                <h1>Manage Author</h1>
                 <Input
                     name="firstName"
                     label="First Name"
@@ -25,12 +33,12 @@ var AuthorForm = React.createClass({
                 />
 
                 <Input
-                       name="lastName"
-                       label="Last Name"
-                       placeholder="Last Name"
-                       onChange={this.props.onChange}
-                       value={this.props.author.lastName}
-                       error={this.props.errors.lastName}
+                    name="lastName"
+                    label="Last Name"
+                    placeholder="Last Name"
+                    onChange={this.props.onChange}
+                    value={this.props.author.lastName}
+                    error={this.props.errors.lastName}
                 />
 
                 <input
@@ -45,4 +53,4 @@ var AuthorForm = React.createClass({
     }
 });
 
-module.exports = AuthorForm;
+module.exports = AuthorAddEditForm;

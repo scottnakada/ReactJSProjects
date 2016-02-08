@@ -1,13 +1,14 @@
 "use strict";
 
-var Dispatcher = require('../dispatcher/appDispatcher');
-var ActionTypes = require('../constants/actionTypes');
+var Dispatcher = require('../dispatcher/AppDispatcher');
+var ActionTypes = require('../constants/ActionTypes');
 var EventEmitter = require('events').EventEmitter;
 /* Combine the key value pairs from multiple objects into a single object */
 /* This is a kludge to allow ES5 javascript do something that is a part of ES6 */
 var assign = require('object-assign');
 var _ = require('lodash');
 var toastr = require('toastr');
+
 var CHANGE_EVENT = 'change';
 
 /* Private variable for storing author data */
@@ -70,7 +71,6 @@ Dispatcher.register(function (action) {
             AuthorStore.emitChange();
             break;
         default:
-            toastr.info("Unknown actiontype '" + action.actionType + "' called in the dispatcher for AuthorStore");
             break;
     }
 });

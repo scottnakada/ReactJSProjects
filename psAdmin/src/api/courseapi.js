@@ -1,7 +1,7 @@
 "use strict";
 
 //This file is mocking a web API by hitting hard coded data.
-var courses = require('./courseData').courses;
+var courses = require('./CourseData').courses;
 var _ = require('lodash');
 
 //This would be performed on the server in a real app. Just stubbing in.

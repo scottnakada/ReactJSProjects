@@ -1,19 +1,19 @@
 'use strict';
 
 var React = require('react');
-var Router = require('react-router');
-var Link = Router.Link;
 
-var Home = React.createClass({
-    render: function() {
+var HomePage = React.createClass({
+    render: function () {
         return (
-            <div className="jumbotron">
-                <h1>Pluralsight Administration</h1>
-                <p>React, React Router, and Flux for ultra responsive web apps.</p>
-                <Link to="about" className="btn btn-primary btn-lg">Learn More</Link>
+            <div>
+                <h1>Welcome to the Pluralsight Administration Demo Project</h1>
+                <h4><p>This project was created by following the instructions in the
+                    Pluralsight course "Building Applications with React and Flux" by Cory House.
+                    https://app.pluralsight.com/library/courses/react-flux-building-applications/table-of-contents</p>
+                </h4>
             </div>
         );
     }
 });
 
-module.exports = Home;
+module.exports = HomePage;

@@ -17,25 +17,58 @@ var Redirect = Router.Redirect;
 /* Define the routes for this system */
 var routes = (
     /* Load our app if only the / is specified */
-    <Route name="app" path="/" handler={require('./components/app')}>
+    <Route name="app" path="/" handler={require('./components/App/App')}>
         /* Our default route will load the homePage */
-        <DefaultRoute handler={require('./components/homePage/homePage')}/>
-        /* /authors will load the authors page */
-        <Route name="authors" handler={require('./components/authors/authorPage')}/>
-        /* /addAuthor will load the manageAuthor page */
-        <Route name="addAuthor" path="author" handler={require('./components/authors/manageAuthorPage')}/>
+        <DefaultRoute
+            handler={require('./components/HomePage/HomePage')}/>
+        /* /authors will load the privacy page */
+        <Route
+            name="authors"
+            handler={require('./components/AuthorsPage/AuthorsPage')}
+        />
+        /* /author will load the AuthorAddEdit page */
+        <Route
+            name="addAuthor"
+            path="author"
+            handler={require('./components/AuthorAddEditPage/AuthorAddEditPage')}
+        />
         /* /manageAuthor will load the manageAuthor page */
-        <Route name="manageAuthor" path="author/:id" handler={require('./components/authors/manageAuthorPage')}/>
+        <Route
+            name="updateAuthor"
+            path="author/:id"
+            handler={require('./components/AuthorAddEditPage/AuthorAddEditPage')}
+        />
+        /* /courses will load the privacy page */
+        <Route
+            name="courses"
+            handler={require('./components/CoursesPage/CoursesPage')}
+        />
+        /* /author will load the CourseAddEdit page */
+        <Route
+            name="addCourse"
+            path="course"
+            handler={require('./components/CourseAddEditPage/CourseAddEditPage')}
+        />
+        /* /manageAuthor will load the manageAuthor page */
+        <Route
+            name="updateCourse"
+            path="course/:id"
+            handler={require('./components/CourseAddEditPage/CourseAddEditPage')}
+        />
+        /* /privacy will load the privacy page */
+        <Route
+            name="privacy"
+            handler={require('./components/PrivacyPage/PrivacyPage')}
+        />
         /* /about will load the aboutPage */
-        <Route name="about" handler={require('./components/about/aboutPage')}/>
+        <Route
+            name="about"
+            handler={require('./components/AboutPage/AboutPage')}
+        />
         /* Handle not found routes */
-        <NotFoundRoute handler={require('./components/common/notFoundPage')}/>
-        /* Redirect from an old reference to about-us to about */
-        <Redirect from="about-us" to="about"/>
-        /* Autocorrect for spelling errors */
-        <Redirect from="awthers" to="authors"/>
-        /* Use wildcards to redirect to the about page */
-        <Redirect from="about/*" to="about"/>
+        <NotFoundRoute
+            handler={require('./components/common/NotFoundPage')}
+        />
     </Route>
 );
 
