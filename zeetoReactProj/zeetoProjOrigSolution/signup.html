@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Signup</title>
+
+    <!-- styles -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="signup">
+    <div id="selected-product" onsubmit="handleSubmit()"></div>
+
+    <h1>Most samples are available for a limited time only!</h1>
+    <h2>Sign up to redeem while supplies last</h2>
+    <div class="container col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1">
+        <form id="signupForm" action="thank-you.html">
+            <div class="row">
+                <div class="col-md-6 col-sm-12 form-group">
+                    <input type="text" placeholder="First Name" name="firstName" id="firstName"/>
+                </div>
+                <div class="col-md-6 col-sm-12 form-group">
+                    <input type="text" placeholder="Last Name" name="lastName" id="lastName"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-12 form-group">
+                    <input type="text" placeholder="Email" name="email" id="email"/>
+                </div>
+                <div class="col-md-6 col-sm-12 form-group">
+                    <input type="text" placeholder="Phone Number" name="phone" id="phone"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-12 form-group">
+
+                    <input type="text" placeholder="Street Address" name="street" id="street"/>
+                </div>
+                <div class="col-md-6 col-sm-12 form-group">
+                    <input type="text" placeholder="City" name="city" id="city"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-12 form-group">
+                    <input type="text" placeholder="State" name="state" id="state"/>
+                </div>
+                <div class="col-md-6 col-sm-12 form-group">
+                    <input type="text" placeholder="Zip" name="zip" id="zip"/>
+                </div>
+            </div>
+            <div class="row">
+                <button type="submit" onclick="handleSubmit()">submit</button>
+                <input type="hidden" name="applicant" id="applicant" value="SMN">
+                <input type="hidden" name="cookie" id="cookie" value="dummyData">
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="log"></div>
+<!-- scripts -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    /* Scan the URL encoded parameters for a variable of name variable */
+    /* Parameters will be encoded http://websiteName?variableName=variableValue&variable2Name=variable2Value */
+    function getQueryVariable(variable) {
+        /* Read the URL for this page */
+        var query = window.location.search.substring(1);
+        /* Split the variables by the & delimiter */
+        var vars = query.split("&");
+        /* Loop thru all the variables in the input */
+        for (var i = 0; i < vars.length; i++) {
+            /* Separate the variable name from the variable value (delimited by =) */
+            var pair = vars[i].split("=");
+            /* Does this variable name match the variable we are searching for? */
+            if (pair[0] == variable) {
+                /* Return the value of this variable */
+                return pair[1];
+            }
+        }
+        /* If we didn't find the variable, return false */
+        return (false);
+    }
+
+    /* true if you can pass cookies, false if we should use URL parameter passing */
+    var cookieOk;
+    /* Data to pass if we are using URL parameter passing */
+    var passData = '';
+
+    /* Does this browser support cookies? */
+    if (typeof(Storage) !== "undefined") {
+        /* Yeah, we can use cookies */
+        cookieOk = true;
+        /* Read the cookie data */
+        source = localStorage.getItem("source");
+        title = localStorage.getItem("title");
+        image = localStorage.getItem("image");
+    } else {
+        /* Oops, this browser doesn't support cookies, let's use URL encoding */
+        cookieOk = false;
+        /* Read the data from the URL if available */
+        source = decodeURI(getQueryVariable("source"));
+        title = decodeURI(getQueryVariable("title"));
+        image = decodeURI(getQueryVariable("image"));
+    }
+
+    /* Store the cookie/URL data in the cookie hidden text field on the form */
+    document.getElementById("cookie").value = source + title + image;
+
+    /* Put the data into the selected-product field */
+    document.getElementById("selected-product").innerHTML = "<h1>" + title + "</h1><br/>" +
+            "<img src='" + image + "'>";
+
+    /* Handle the submit button press */
+    function handleSubmit() {
+        /* URL parameter passing string if no cookies */
+        var optionData = '';
+        /* Create a cookie parameter for passing to the API */
+        var cookie = '';
+
+        /* If cookies are ok, store the data */
+        if (cookieOk) {
+            /* Store the form data in local storage */
+            localStorage.setItem("firstName", document.getElementById('firstName').value);
+            localStorage.setItem("lastName", document.getElementById('lastName').value);
+            localStorage.setItem("email", document.getElementById('email').value);
+            localStorage.setItem("phone", document.getElementById('phone').value);
+            localStorage.setItem("street", document.getElementById('street').value);
+            localStorage.setItem("city", document.getElementById('city').value);
+            localStorage.setItem("state", document.getElementById('state').value);
+            localStorage.setItem("zip", document.getElementById('zip').value);
+            /* Concatenate all the cookie data in a cookie variable */
+            var cookie = localStorage.getItem("source") +
+                    localStorage.getItem("title") +
+                    localStorage.getItem("image") +
+                    localStorage.getItem("firstName") +
+                    localStorage.getItem("lastName") +
+                    localStorage.getItem("email") +
+                    localStorage.getItem("phone") +
+                    localStorage.getItem("street") +
+                    localStorage.getItem("city") +
+                    localStorage.getItem("state") +
+                    localStorage.getItem("zip");
+        } else {
+            /* Format a URL parameter string will all the data */
+            optionData = "?source=" + source +
+                    "&title=" + title +
+                    "&image=" + image +
+                    "&firstName=" + document.getElementById('firstName').value +
+                    "&lastName=" + document.getElementById('lasttName').value +
+                    "&email=" + document.getElementById('email').value +
+                    "&phone=" + document.getElementById('phone').value +
+                    "&street=" + document.getElementById('street').value +
+                    "&citye=" + document.getElementById('city').value +
+                    "&state=" + document.getElementById('state').value +
+                    "&zip=" + document.getElementById('zip').value;
+            /* Set the cookie to the option Data */
+            cookie = optionData;
+            /* URL encode the option data, so it can be appended to the link string */
+            optionData = encodeURI(optionData);
+        }
+
+        /* Create a JSON object to pass to the POST request */
+        postObj = {
+            source: source,
+            title: title,
+            image: image,
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            street: document.getElementById('street').value,
+            city: document.getElementById('city').value,
+            state: document.getElementById('state').value,
+            zip: document.getElementById('zip').value,
+            applicant: "SMN",
+            cookie: cookie
+        };
+        console.log("Starting Ajax Request");
+        $.ajax({
+            // The 'type' property sets the HTTP method.
+            // A value of 'PUT' or 'DELETE' will trigger a preflight request.
+            type: 'POST',
+            // The URL to make the request to.
+            url: "http://submissions.herokuapp.com/api/submissions",
+            // Allow crossDomain requests???
+            crossDomain: true,
+            // Data to post to the API
+            data: postObj,
+            // The 'contentType' property sets the 'Content-Type' header.
+            // The JQuery default for this property is
+            // 'application/x-www-form-urlencoded; charset=UTF-8', which does not trigger
+            // a preflight. If you set this value to anything other than
+            // application/x-www-form-urlencoded, multipart/form-data, or text/plain,
+            // you will trigger a preflight request.
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            xhrFields: {
+                // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+                // This can be used to set the 'withCredentials' property.
+                // Set the value to 'true' if you'd like to pass cookies to the server.
+                // If this is enabled, your server must respond with the header
+                // 'Access-Control-Allow-Credentials: true'.
+                withCredentials: false
+            },
+            //headers: {
+            // Set any custom headers here.
+            // If you set any non-simple headers, your server must include these
+            // headers in the 'Access-Control-Allow-Headers' response header.
+            //},
+            // data type
+            dataType: 'json',
+            // success callback
+            success: function (responseData, textStatus, xhr) {
+                //var value = responseData.someKey;
+                console.log("success: responseData=" + responseData +
+                        ", status=" + textStatus);
+            },
+            // error callback
+            // Here's where you handle an error response.
+            // Note that if the error was due to a CORS issue,
+            // this function will still fire, but there won't be any additional
+            // information about the error.
+            error: function (responseData, textStatus, errorThrown) {
+                console.log("OK, I'm pretty sure this is a CORS error; but I'm stumped trying to figure this out:(");
+                console.log("error: responseData=" + responseData +
+                        ", status=" + textStatus + ", errorThrown=" +
+                        errorThrown);
+            }
+        });
+
+        console.log("After Ajax request");
+
+        /* Go to the thank-you page */
+        window.location = "thank-you.html" + optionData;
+    }
+
+</script>
+</body>
+</html>

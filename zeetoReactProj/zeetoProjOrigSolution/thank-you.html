@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Thank You</title>
+
+    <!-- styles -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="thank-you">
+
+    <div id="product"></div>
+
+    <h1><span class="name">X</span>, your free sample is on its way!</h1>
+    <h2>We hope you enjoy your freebie, and share it with your <span class="source"></span> friends</h2>
+
+    <div id="user-information"></div>
+
+</div>
+<!-- scripts -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    /* Scan the URL encoded parameters for a variable of name variable */
+    /* Parameters will be encoded http://websiteName?variableName=variableValue&variable2Name=variable2Value */
+    function getQueryVariable(variable) {
+        /* Read the URL for this page */
+        var query = window.location.search.substring(1);
+        /* Split the variables by the & delimiter */
+        var vars = query.split("&");
+        /* Loop thru all the variables in the input */
+        for (var i = 0; i < vars.length; i++) {
+            /* Separate the variable name from the variable value (delimited by =) */
+            var pair = vars[i].split("=");
+            /* Does this variable name match the variable we are searching for? */
+            if (pair[0] == variable) {
+                /* Return the value of this variable */
+                return pair[1];
+            }
+        }
+        /* If we didn't find the variable, return false */
+        return (false);
+    }
+
+    /* true if you can pass cookies, false if we should use URL parameter passing */
+    var cookieOk;
+
+    /* Does this browser support cookies? */
+    if (typeof(Storage) !== "undefined") {
+        /* Yeah, we can use cookies */
+        cookieOk = true;
+        /* Read the cookie data */
+        source = localStorage.getItem("source");
+        title = localStorage.getItem("title");
+        image = localStorage.getItem("image");
+        firstName = localStorage.getItem("firstName");
+        lastName = localStorage.getItem("lastName");
+        email = localStorage.getItem("email");
+        phone = localStorage.getItem("phone");
+        street = localStorage.getItem("street");
+        city = localStorage.getItem("city");
+        state = localStorage.getItem("state");
+        zip = localStorage.getItem("zip");
+    } else {
+        /* Oops, this browser doesn't support cookies, let's use URL encoding */
+        cookieOk = false;
+        /* Read the data from the URL if available */
+        source = decodeURI(getQueryVariable("source"));
+        title = decodeURI(getQueryVariable("title"));
+        image = decodeURI(getQueryVariable("image"));
+        firstName = decodeURI(getQueryVariable("firstName"));
+        lastName = decodeURI(getQueryVariable("lastName"));
+        email = decodeURI(getQueryVariable("email"));
+        phone = decodeURI(getQueryVariable("phone"));
+        street = decodeURI(getQueryVariable("street"));
+        city = decodeURI(getQueryVariable("city"));
+        state = decodeURI(getQueryVariable("state"));
+        zip = decodeURI(getQueryVariable("zip"));
+    }
+
+    /* Set the fields with the users name */
+    var names = document.getElementsByClassName("name");
+    for (i = 0; i < names.length; i++) {
+        names[i].innerHTML = firstName;
+    }
+
+    /* Set the fields with the source name */
+    var sources = document.getElementsByClassName("source");
+    for (i = 0; i < sources.length; i++) {
+        sources[i].innerHTML = source;
+    }
+
+    /* Load the product title and picture */
+    document.getElementById("product").innerHTML = "<h1>" + title + "</h1><br/>" +
+            "<img src='" + image + "'>";
+
+    /* Load the user info fields */
+    document.getElementById("user-information").innerHTML =
+            '<div class="row">' +
+            '<div class="col-md-6 col-md-3-offset col-sm-10 col-sm-offset-1">' +
+            '<div class="col-md-6 col-sm-12">' +
+            '<strong>First Name:&nbsp;</strong>' +
+            firstName + "<br />" +
+            '</div>' +
+            '<div class="col-md-6 col-sm-12">' +
+            '<strong>Last Name:&nbsp;</strong>' +
+            lastName + "<br />" +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="row">' +
+            '<div class="col-md-6 col-md-3-offset col-sm-10 col-sm-offset-1">' +
+            '<div class="col-md-6 col-sm-12">' +
+            '<strong>Email:&nbsp;</strong>' +
+            email + "<br />" +
+            '</div>' +
+            '<div class="col-md-6 col-sm-12">' +
+            '<strong>Phone:&nbsp;</strong>' +
+            phone + "<br />" +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="row">' +
+            '<div class="col-md-6 col-md-3-offset col-sm-10 col-sm-offset-1">' +
+            '<div class="col-md-6 col-sm-12">' +
+            '<strong>Street:&nbsp;</strong>' +
+            street + "<br />" +
+            '</div>' +
+            '<div class="col-md-6 col-sm-12">' +
+            '<strong>City:&nbsp;</strong>' +
+            city + "<br />" +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="row">' +
+            '<div class="col-md-6 col-md-3-offset col-sm-10 col-sm-offset-1">' +
+            '<div class="col-md-6 col-sm-12">' +
+            '<strong>State:&nbsp;</strong>' +
+            state + "<br />" +
+            '</div>' +
+            '<div class="col-md-6 col-sm-12">' +
+            '<strong>Zip:&nbsp;</strong>' +
+            zip + "<br />" +
+            '</div>' +
+            '</div>' +
+            '</div>';
+</script>
+</body>
+</html>

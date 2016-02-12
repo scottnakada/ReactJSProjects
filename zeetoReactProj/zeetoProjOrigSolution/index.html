@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Landing Page</title>
+
+    <!-- styles -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="landing-page">
+    <h1>Check out these free samples!</h1>
+    <h2>Select a sample below</h2>
+
+    <div id="gif-results"></div>
+</div>
+<!-- scripts -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    /* Scan the URL encoded parameters for a variable of name variable */
+    /* Parameters will be encoded http://websiteName?variableName=variableValue&variable2Name=variable2Value */
+    function getQueryVariable(variable) {
+        /* Read the URL for this page */
+        var query = window.location.search.substring(1);
+        /* Split the variables by the & delimiter */
+        var vars = query.split("&");
+        /* Loop thru all the variables in the input */
+        for (var i = 0; i < vars.length; i++) {
+            /* Separate the variable name from the variable value (delimited by =) */
+            var pair = vars[i].split("=");
+            /* Does this variable name match the variable we are searching for? */
+            if (pair[0] == variable) {
+                /* Return the value of this variable */
+                return pair[1];
+            }
+        }
+        /* If we didn't find the variable, return false */
+        return (false);
+    }
+
+    /* Bring query response data into the public scope */
+    var queryData;
+
+    /* true if you can pass cookies, false if we should use URL parameter passing */
+    var cookieOk;
+    /* Data to pass if we are using URL parameter passing */
+    var passData = '';
+
+    /* Does this browser support cookies? */
+    if (typeof(Storage) !== "undefined") {
+        /* Yeah, we can use cookies */
+        cookieOk = true;
+    } else {
+        /* Oops, this browser doesn't support cookies, let's use URL encoding */
+        cookieOk = false;
+    }
+
+    /* Save the source value if it exists */
+    var sourceValue = getQueryVariable("source");
+
+    /* Is the source a valid value? */
+    if ((sourceValue == "Google") || sourceValue == "Facebook" || sourceValue == "Twitter") {
+        console.log("URL parameter source is: " + sourceValue);
+        /* Can we store it as a cookie? */
+        if (cookieOk) {
+            /* Yeah, store it in the cookies */
+            localStorage.setItem("source", sourceValue)
+        } else {
+            /* :(, no cookies, pass data in URL, is this the first parameter? */
+            if (passData.length == 0) {
+                /* Start the pass data string with a ? */
+                passData = "?source=" + encodeURI(sourceValue);
+            } else {
+                /* Add another parameter, starting with an & */
+                passData += "&source=" + encodeURI(sourceValue);
+            }
+        }
+    } else {
+        /* Oops, the source either wasn't specified, or is not one of our valid sources */
+        console.log("Oops, the source value of '" + sourceValue + "' is not valid!");
+    }
+
+    /* Access the API, and read the first 8 responses for popular freebees */
+    $.getJSON("http://www.getitfree.us/api/posts.json?filter=popular&limit=8", function (response) {
+
+        /* Store the query data globally */
+        queryData = response.data;
+        /* Build an HTML output string to display the data, starting with an empty string */
+        var out = "";
+        /* Loop thru the objects in the response.data object (one per freebee) */
+        for (var key in queryData) {
+            /* Add the onclick to capture user selection, and display title */
+            out += "<div onclick=goToSignup('" + key + "')><h1>" +
+                  response.data[key].title + "</h1><br />";
+            /* Display the image of the freebie */
+            out += "<img src='" + response.data[key].images[0] + "' /><br />";
+            /* Show the description of the product */
+            out += response.data[key].description + "</div><br /><br />";
+        }
+        document.getElementById("gif-results").innerHTML = out;
+    });
+
+    /* Go to the signup page */
+    function goToSignup(key) {
+        console.log("goToSignup: key=" + key);
+        title = queryData[key].title;
+        image = queryData[key].images[0];
+        console.log("goToSignup: title=" + title + ", image=" + image);
+        /* Are cookes ok? */
+        if (cookieOk) {
+            /* Store the title and image as cookies */
+            localStorage.setItem("title", title);
+            localStorage.setItem("image", image);
+            /* Go to the signup page */
+            window.location = "signup.html";
+        } else {
+            /* Parameters to pass, if we are using URL to pass info (bad cookies) */
+            var optionData = '';
+            /* :(, no cookies, pass data in URL, is this the first parameter? */
+            if (passData.length == 0) {
+                /* Start the pass data string with a ? */
+                optionData = "?title=" + encodeURI(title) +
+                        "&image=" + encodeURI(image);
+            } else {
+                /* Add another parameter, starting with an & */
+                optionData = passData +
+                        "&title=" + encodeURI(title) +
+                        "&image=" + encodeURI(image);
+            }
+            /* Go to the signup page, passing the option data */
+            window.location = "signup.html" + optionData;
+        }
+    }
+
+
+</script>
+</body>
+</html>
