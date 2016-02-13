@@ -39,6 +39,7 @@ var Signup = React.createClass({
     statics: {
         willTransitionTo: function (transition, params, query, callback) {
 
+            /* Retrieve the title and image from local storage */
             var id = localStorage.getItem("id");
             var title = localStorage.getItem("title");
             var image = localStorage.getItem("image");
@@ -46,13 +47,15 @@ var Signup = React.createClass({
             /* See if title and image have been set on the landing page */
             if ((title == '') || (image == '')) {
                 /* We need title and image for this page, ask if they want to proceed anyway */
-                //if (!confirm("You havn't selected a product yet. Are you sure you want to continue?")) {
-                /* Abort the transition, stay on original page */
-                transition.abort();
-            } else {
-                /* Continue with the transition */
-                callback();
+                if (confirm("You havn't selected a product yet. Let's stay on this page?")) {
+                    /* Abort the transition */
+                    transition.abort();
+                }
             }
+
+            /* If we havn't aborted the transition so far, continue with the transition */
+            callback();
+
         }
     },
 
@@ -167,9 +170,7 @@ var Signup = React.createClass({
         cookieData += ',state=' + localStorage.getItem("state");
         cookieData += ',zip=' + localStorage.getItem("zip");
         cookieData = encodeURI(cookieData);
-        console.log("cookieData: " + cookieData);
         postData += '&cookie="' + cookieData + '"';
-        console.log("postData url:" + postData);
     },
 
     saveUser: function (event) {
@@ -196,8 +197,8 @@ var Signup = React.createClass({
                     console.log("Post callback:" + error);
                     throw error;
                 }
-                ;
-                console.log("callback response:" + response);
+
+                console.log("callback response:" + JSON.stringify(response));
             }
         );
         this.setState({dirty: false});

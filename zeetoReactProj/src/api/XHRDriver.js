@@ -1,7 +1,7 @@
 'use strict';
 
 /* Assume we are not in debug mode */
-var debug = true;
+var debug = false;
 
 /* XML Http Request Driver function */
 /*

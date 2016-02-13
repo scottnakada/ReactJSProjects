@@ -44,7 +44,7 @@ var ThankYou = React.createClass({
             /* See if title and image have been set on the landing page */
             if ((title == '') || (image == '')) {
                 /* We need title and image for this page, ask if they want to proceed anyway */
-                if (!confirm("You havn't selected a product yet. Are you sure you want to continue?")) {
+                if (confirm("You havn't selected a product yet. Let's stay on this page?")) {
                     /* Abort the transition */
                     transition.abort();
                 }
